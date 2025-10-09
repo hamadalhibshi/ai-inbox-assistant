@@ -60,13 +60,19 @@ The server will run on `http://localhost:3000`
    npm install
    ```
 
-3. Start the development server:
+3. Create a `.env` file:
+
+   ```
+   VITE_API_URL=your_api_url_here
+   ```
+
+4. Start the development server:
    ```bash
-   npm run dev
+   npm start
    ```
 
 ## Tech Stack
 
-- **Backend**: Node.js, Express, OpenAI SDK
+- **Backend**: Node.js, Express, OpenAI SDK, cors, dotenv
 - **Frontend**: React, TypeScript, Vite
 - **AI**: Groq API with Llama 3.1 model
