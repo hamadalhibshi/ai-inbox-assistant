@@ -25,7 +25,11 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.post("/", async (req, res) => {
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
+app.post("/ai", async (req, res) => {
   const messageText = req.body.messageText;
   const resp = await client.chat.completions.create({
     model: process.env.OPENAI_MODEL,
