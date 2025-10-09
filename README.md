@@ -20,16 +20,19 @@ An intelligent email processing system that uses AI to automatically extract and
 ### Backend Setup
 
 1. Navigate to the backend directory:
+
    ```bash
    cd backend
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Create a `.env` file with your API credentials:
+
    ```
    OPENAI_API_KEY=your_api_key_here
    OPENAI_BASE_URL=https://api.groq.com/openai/v1
@@ -43,24 +46,16 @@ An intelligent email processing system that uses AI to automatically extract and
 
 The server will run on `http://localhost:3000`
 
-### API Usage
-
-Send a POST request to `/ai/extract` with your message:
-
-```bash
-curl -X POST http://localhost:3000/ai/extract \
-  -H "Content-Type: application/json" \
-  -d '{"messageText": "Your email content here"}'
-```
-
 ### Frontend Setup
 
 1. Navigate to the frontend directory:
+
    ```bash
    cd frontend
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -69,12 +64,6 @@ curl -X POST http://localhost:3000/ai/extract \
    ```bash
    npm run dev
    ```
-
-## API Endpoints
-
-- `POST /ai/extract` - Extract fields from email text
-  - Body: `{"messageText": "email content"}`
-  - Returns: JSON object with extracted fields
 
 ## Tech Stack
 
