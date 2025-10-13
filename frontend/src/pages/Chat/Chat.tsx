@@ -147,15 +147,6 @@ const Chat = () => {
             sx={{
               bgcolor: "white",
               borderRadius: 2,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: 2,
-                "&:hover fieldset": {
-                  borderColor: "#A18CFF",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#846CF4",
-                },
-              },
             }}
           />
 
