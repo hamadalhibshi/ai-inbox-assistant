@@ -58,6 +58,7 @@ const Tutorial = () => {
           >
             <Box
               component="img"
+              src=""
               sx={{
                 bgcolor: "#846CF4",
                 height: 250,

@@ -19,13 +19,11 @@ let sql = `CREATE TABLE IF NOT EXISTS tickets (
   id TEXT PRIMARY KEY,
   status TEXT NOT NULL CHECK (status IN ('open', 'closed')),
   createdAt TEXT NOT NULL,
-  contact_name TEXT,
-  contact_email TEXT,
-  contact_phone TEXT,
+  contact JSON,  -- store name, email, phone as a JSON object
   channel TEXT NOT NULL CHECK (channel IN ('email', 'whatsapp', 'sms', 'chat', 'unknown')),
   language TEXT NOT NULL,
   intent TEXT NOT NULL,
-  priority TEXT NOT NULL CHECK (priority IN ('low', 'medium', 'high')),
+  priority TEXT NOT NULL CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
   message_raw TEXT NOT NULL,
   reply_suggestion TEXT NOT NULL,
   updatedAt TEXT DEFAULT CURRENT_TIMESTAMP

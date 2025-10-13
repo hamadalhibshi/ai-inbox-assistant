@@ -36,13 +36,13 @@ app.get("/ai", (req, res) => {
         throw err;
       }
       rows.forEach((row) => {
+        let contact = row.contact ? JSON.parse(row.contact) : {};
+
         data.tickets.push({
           id: row.id,
           status: row.status,
           createdAt: row.createdAt,
-          contact_name: row.contact_name,
-          contact_email: row.contact_email,
-          contact_phone: row.contact_phone,
+          contact,
           channel: row.channel,
           language: row.language,
           intent: row.intent,
@@ -85,7 +85,7 @@ app.post("/ai", async (req, res) => {
     "channel": "email" or "whatsapp" or "sms" or "chat" or "unknown",
     "language": "language code like 'en' or 'ar'",
     "intent": "short description like 'billing question' or 'maintenance request'",
-    "priority": "low" or "medium" or "high",
+    "priority": "low" or "medium" or "high or urgent",
     "entities": [
         {"type": "entity type", "value": "entity value"}
     ],
@@ -139,11 +139,7 @@ app.get("/ai/extract", (req, res) => {
       id: row.id,
       status: row.status,
       createdAt: row.createdAt,
-      contact: {
-        name: row.contact_name,
-        email: row.contact_email,
-        phone: row.contact_phone,
-      },
+      contact,
       channel: row.channel,
       language: row.language,
       intent: row.intent,
@@ -173,62 +169,23 @@ app.post("/ai/save", (req, res) => {
       reply_suggestion,
     } = req.body;
 
-    // Debug: Log the received data
-    console.log("Received data:", {
-      id,
-      status,
-      createdAt,
-      contact,
-      channel,
-      language,
-      intent,
-      priority,
-      message_raw,
-      reply_suggestion,
-    });
-
-    // Validate required fields
-    if (
-      !id ||
-      !status ||
-      !createdAt ||
-      !channel ||
-      !language ||
-      !intent ||
-      !priority ||
-      !message_raw ||
-      !reply_suggestion
-    ) {
-      return res.status(400).json({
-        error: "Missing required fields",
-        received: {
-          id: !!id,
-          status: !!status,
-          createdAt: !!createdAt,
-          channel: !!channel,
-          language: !!language,
-          intent: !!intent,
-          priority: !!priority,
-          message_raw: !!message_raw,
-          reply_suggestion: !!reply_suggestion,
-        },
-      });
-    }
-
     const sql = `
       INSERT INTO tickets (
-        id, status, createdAt, contact_name, contact_email, contact_phone,
-        channel, language, intent, priority, message_raw, reply_suggestion
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        id, status, createdAt, contact, channel, language, intent, priority, message_raw, reply_suggestion) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
       id,
       status || "open",
       createdAt,
-      contact?.name || null,
-      contact?.email || null,
-      contact?.phone || null,
+      contact
+        ? JSON.stringify({
+            name: contact.name || null,
+            email: contact.email || null,
+            phone: contact.phone || null,
+          })
+        : null, // this will go into the 'contact' JSON column
       channel || "unknown",
       language || "en",
       intent || "general inquiry",
@@ -241,14 +198,14 @@ app.post("/ai/save", (req, res) => {
       if (err) {
         console.error("Database error:", err);
         return res.status(500).json({
-          error: "Failed to save message to database",
+          error: "Failed to save ticket to database",
           details: err.message,
         });
       }
 
       res.json({
         success: true,
-        message: "Message saved successfully",
+        message: "Ticket saved successfully",
         messageId: id,
       });
     });

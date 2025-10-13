@@ -13,7 +13,7 @@ export interface Ticket {
   id: string | undefined;
   status: string | undefined;
   createdAt: string | undefined;
-  contact: string | undefined;
+  contact: Contact;
   channel: string | undefined;
   language: string | undefined;
   intent: string | undefined;
