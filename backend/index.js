@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.VITE_APP_URL,
+    origin: process.env.VITE_APP_URL, //replace with your frontend link or add to .env
     credentials: true,
   })
 );
