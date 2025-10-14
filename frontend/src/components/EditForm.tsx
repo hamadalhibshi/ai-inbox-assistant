@@ -116,7 +116,7 @@ const EditForm = ({
                   placeholder="Name"
                   name="contact.name"
                   value={
-                    formik?.values?.contact?.name || ticket?.contact?.name || ""
+                    formik?.values?.contact?.name ?? ticket?.contact?.name ?? ""
                   }
                   onChange={formik?.handleChange}
                   onBlur={formik?.handleBlur}
@@ -139,8 +139,8 @@ const EditForm = ({
                   placeholder="Phone Number"
                   name="contact.phone"
                   value={
-                    formik?.values?.contact?.phone ||
-                    ticket?.contact?.phone ||
+                    formik?.values?.contact?.phone ??
+                    ticket?.contact?.phone ??
                     ""
                   }
                   onChange={formik?.handleChange}
@@ -172,8 +172,8 @@ const EditForm = ({
                   placeholder="Email"
                   name="contact.email"
                   value={
-                    formik?.values?.contact?.email ||
-                    ticket?.contact?.email ||
+                    formik?.values?.contact?.email ??
+                    ticket?.contact?.email ??
                     ""
                   }
                   onChange={formik?.handleChange}
@@ -200,7 +200,7 @@ const EditForm = ({
                   <Select
                     label="Status"
                     name="status"
-                    value={formik?.values?.status || ticket?.status || ""}
+                    value={formik?.values?.status ?? ticket?.status ?? ""}
                     onChange={formik?.handleChange}
                     onBlur={formik?.handleBlur}
                     disabled={!isEdit}
@@ -228,7 +228,7 @@ const EditForm = ({
                   <Select
                     label="Channel"
                     name="channel"
-                    value={formik?.values?.channel || ticket?.channel || ""}
+                    value={formik?.values?.channel ?? ticket?.channel ?? ""}
                     onChange={formik?.handleChange}
                     onBlur={formik?.handleBlur}
                     disabled={!isEdit}
@@ -255,7 +255,7 @@ const EditForm = ({
                   <Select
                     label="Priority"
                     name="priority"
-                    value={formik?.values?.priority || ticket?.priority || ""}
+                    value={formik?.values?.priority ?? ticket?.priority ?? ""}
                     onChange={formik?.handleChange}
                     onBlur={formik?.handleBlur}
                     disabled={!isEdit}
@@ -278,7 +278,7 @@ const EditForm = ({
                   label="Intent"
                   placeholder="Intent"
                   name="intent"
-                  value={formik?.values?.intent || ticket?.intent || ""}
+                  value={formik?.values?.intent ?? ticket?.intent ?? ""}
                   onChange={formik?.handleChange}
                   onBlur={formik?.handleBlur}
                   disabled={!isEdit}
@@ -320,7 +320,7 @@ const EditForm = ({
                 </Button>
               </Box>
             ) : (
-              // TODO: Edit
+              // TODO: Complete edit flow
               <Box
                 display={"flex"}
                 justifyContent={{ xs: "center", md: "flex-start" }}
