@@ -32,7 +32,7 @@ export const getAiMessage = async (req, res) => {
   Return ONLY a **pure JSON object** with exactly these keys:
   
   {
-    "id": "auto-generated-unique-id",
+    "id": "auto-generated-unique-id everytime on submit",
     "status": "open" or "closed",
     "createdAt": "ISO 8601 timestamp",
     "contact": {
@@ -46,7 +46,8 @@ export const getAiMessage = async (req, res) => {
     "priority": "low" or "medium" or "high" or "urgent",
     "entities": [{"type": "entity type", "value": "entity value"}],
     "message_raw": "exact original message text",
-    "reply_suggestion": "short polite draft reply in the detected language"
+    "reply_suggestion": "short polite draft reply in the detected language",
+    "relevant": "true if message is relevant or false if not and should be a boolean"
   }
   
   Rules for JSON mode:

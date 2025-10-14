@@ -48,3 +48,18 @@ export const getTickets = async () => {
 
   return response.json();
 };
+
+export const deleteTicket = async (id: string | undefined) => {
+  const response = await fetch(`${BASE_URL}/ai/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+
+  return response.json();
+};

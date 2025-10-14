@@ -16,13 +16,16 @@ import type { Ticket } from "../../types";
 import { type FormikProps } from "formik";
 import { channels, priorities, status } from "../constants";
 import CloseIcon from "@mui/icons-material/Close";
+import { deleteTicket } from "../utils/api";
+import { useToast } from "../hooks/useToast";
 
 interface EditFormProps {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
-  ticket: Ticket | null;
+  ticket: Ticket | undefined;
   isEdit?: boolean;
   formik?: FormikProps<Ticket>;
+  setIsDeleted?: (val: boolean) => void;
 }
 
 const EditForm = ({
@@ -31,10 +34,29 @@ const EditForm = ({
   ticket,
   isEdit,
   formik,
+  setIsDeleted,
 }: EditFormProps) => {
+  const { handleToast } = useToast();
+
   const closeModal = () => {
     setIsOpen(false);
     formik?.resetForm();
+  };
+
+  const handleDeleteTicket = () => {
+    handleToast(() => deleteTicket(ticket?.id), {
+      loadingMessage: "Deleting ticket...",
+      successMessage: "Ticket deleted successfully!",
+      errorMessage: "Failed to delete ticket",
+      onSuccess: (res) => {
+        console.log("Ticket deleted:", res);
+        closeModal();
+        setIsDeleted?.(true);
+      },
+      onError: (err) => {
+        console.error("Delete error:", err);
+      },
+    });
   };
 
   return (
@@ -280,6 +302,7 @@ const EditForm = ({
                   fullWidth
                   onClick={() => formik?.handleSubmit()}
                   sx={{ py: 2, bgcolor: "#846CF4" }}
+                  disabled={formik?.isSubmitting}
                 >
                   Save
                 </Button>
@@ -295,7 +318,7 @@ const EditForm = ({
                 </Button>
               </Box>
             ) : (
-              // TODO: Edit and Delete Ticket
+              // TODO: Edit
               <Box
                 display={"flex"}
                 justifyContent={{ xs: "center", md: "flex-start" }}
@@ -315,7 +338,7 @@ const EditForm = ({
                   variant="contained"
                   color="error"
                   fullWidth
-                  // onClick={() => {}}
+                  onClick={handleDeleteTicket}
                   sx={{ py: 2 }}
                 >
                   Delete

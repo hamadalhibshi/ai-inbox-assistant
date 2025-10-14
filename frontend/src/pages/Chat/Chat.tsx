@@ -20,9 +20,13 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { EditForm } from "../../components";
 import { useFormik } from "formik";
 
+interface TicketRelevance extends Ticket {
+  relevant?: boolean;
+}
+
 const Chat = () => {
   const [messageText, setMessageText] = useState("");
-  const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [ticket, setTicket] = useState<TicketRelevance | undefined>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +91,7 @@ const Chat = () => {
 
     setLoading(true);
     setError(null);
-    setTicket(null);
+    setTicket(undefined);
 
     handleToast(() => extractFields(messageText), {
       loadingMessage: "Processing message...",
@@ -230,48 +234,53 @@ const Chat = () => {
 
           <Divider sx={{ mb: 3 }} />
 
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={2}
-          >
-            <Typography variant="h6" fontWeight={600}>
-              Extracted Fields
-            </Typography>
-
-            <Stack direction="row" spacing={1}>
-              <Button
-                variant="contained"
-                type="submit"
-                onClick={() => formik.handleSubmit()}
-                sx={{ bgcolor: "#846CF4" }}
+          {ticket.relevant && (
+            <>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={2}
               >
-                Save
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleEditTicket}
-              >
-                Edit
-              </Button>
-            </Stack>
-          </Stack>
+                <Typography variant="h6" fontWeight={600}>
+                  Extracted Fields
+                </Typography>
 
-          <Box
-            component="pre"
-            sx={{
-              bgcolor: "grey.900",
-              color: "grey.100",
-              p: 2,
-              borderRadius: 2,
-              fontSize: "0.875rem",
-              overflowX: "auto",
-            }}
-          >
-            {JSON.stringify(ticket, null, 2)}
-          </Box>
+                <Stack direction="row" spacing={1}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={() => formik.handleSubmit()}
+                    sx={{ bgcolor: "#846CF4" }}
+                    disabled={formik.isSubmitting}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleEditTicket}
+                  >
+                    Edit
+                  </Button>
+                </Stack>
+              </Stack>
+
+              <Box
+                component="pre"
+                sx={{
+                  bgcolor: "grey.900",
+                  color: "grey.100",
+                  p: 2,
+                  borderRadius: 2,
+                  fontSize: "0.875rem",
+                  overflowX: "auto",
+                }}
+              >
+                {JSON.stringify(ticket, null, 2)}
+              </Box>
+            </>
+          )}
         </Paper>
       )}
       <EditForm

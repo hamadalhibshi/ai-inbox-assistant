@@ -16,7 +16,7 @@ const DB = new sql3.Database(
 );
 
 let sql = `CREATE TABLE IF NOT EXISTS tickets (
-  id TEXT PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   status TEXT NOT NULL CHECK (status IN ('open', 'closed')),
   createdAt TEXT NOT NULL,
   contact JSON,  -- store name, email, phone as a JSON object

@@ -72,7 +72,6 @@ export const getExtractedTickets = (res) => {
 export const saveTicket = (req, res) => {
   try {
     const {
-      id,
       status,
       createdAt,
       contact,
@@ -87,12 +86,11 @@ export const saveTicket = (req, res) => {
 
     const sql = `
       INSERT INTO tickets (
-        id, status, createdAt, contact, channel, language, intent, priority, message_raw, reply_suggestion) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         status, createdAt, contact, channel, language, intent, priority, message_raw, reply_suggestion) 
+        VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
-      id,
       status || "open",
       createdAt,
       contact
@@ -122,7 +120,6 @@ export const saveTicket = (req, res) => {
       res.json({
         success: true,
         message: "Ticket saved successfully",
-        messageId: id,
       });
     });
   } catch (err) {
@@ -131,4 +128,16 @@ export const saveTicket = (req, res) => {
       details: err.message,
     });
   }
+};
+
+export const DeleteTicket = (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM tickets WHERE id = ?`;
+  DB.run(sql, id, (err) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.status(200).json({ message: "Deleted successfully", id });
+    }
+  });
 };

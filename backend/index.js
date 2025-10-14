@@ -5,6 +5,7 @@ import {
   getTickets,
   getExtractedTickets,
   saveTicket,
+  DeleteTicket,
 } from "./controllers/tickets.js";
 import { getAiMessage } from "./controllers/ai.js";
 
@@ -40,4 +41,8 @@ app.post("/ai", (req, res) => {
 
 app.post("/ai/save", (req, res) => {
   saveTicket(req, res);
+});
+
+app.delete("/ai/:id", (req, res) => {
+  DeleteTicket(req, res);
 });

@@ -21,18 +21,20 @@ import toast from "react-hot-toast";
 const Tickets = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [viewModal, setViewModal] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<Ticket>([]);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | undefined>();
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     getTickets()
       .then((res) => {
         setTickets(res?.data);
+        setIsDeleted(false);
       })
       .catch((err) => {
         toast.error("Error getting Data");
         console.log(err.message);
       });
-  }, []);
+  }, [isDeleted]);
 
   const handleTicketClick = (ticket: Ticket) => {
     setViewModal(!viewModal);
@@ -193,6 +195,7 @@ const Tickets = () => {
         isOpen={viewModal}
         setIsOpen={setViewModal}
         ticket={selectedTicket}
+        setIsDeleted={setIsDeleted}
       />
     </Screen>
   );
