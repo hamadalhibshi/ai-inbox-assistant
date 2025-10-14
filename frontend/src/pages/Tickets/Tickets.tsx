@@ -13,16 +13,29 @@ import {
   Paper,
   TableHead,
   TablePagination,
+  TextField,
+  Stack,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Divider,
+  InputAdornment,
 } from "@mui/material";
 import { handlePriorityColors, handleStatusColors } from "./Helpers/helpers";
 import moment from "moment";
 import toast from "react-hot-toast";
+import SearchIcon from "@mui/icons-material/Search";
+import { priorities, status } from "../../constants";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [viewModal, setViewModal] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | undefined>();
   const [isDeleted, setIsDeleted] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
     getTickets()
@@ -63,6 +76,66 @@ const Tickets = () => {
             mb: 10,
           }}
         >
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            sx={{
+              p: 3,
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              variant="outlined"
+              placeholder="Search..."
+              size="small"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon color="action" />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ minWidth: 50 }}
+            />
+
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <InputLabel>Priority</InputLabel>
+              <Select
+                label="Priority"
+                value={priorityFilter}
+                onChange={(e) => setPriorityFilter(e.target.value)}
+              >
+                <MenuItem value="all">All</MenuItem>
+                {Object.entries(priorities).map(([key, value]) => (
+                  <MenuItem value={value.toString().toLowerCase()} key={key}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <InputLabel>Status</InputLabel>
+              <Select
+                label="Status"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <MenuItem value="all">All</MenuItem>
+                {Object.entries(status).map(([key, value]) => (
+                  <MenuItem value={value.toString().toLowerCase()} key={key}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+
+          <Divider />
+
           <TableContainer>
             <Table>
               <TableHead>

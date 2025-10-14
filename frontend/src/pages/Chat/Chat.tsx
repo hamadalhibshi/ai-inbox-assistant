@@ -260,6 +260,7 @@ const Chat = () => {
                     variant="contained"
                     color="secondary"
                     onClick={handleEditTicket}
+                    disabled={formik.isSubmitting}
                   >
                     Edit
                   </Button>
