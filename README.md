@@ -1,13 +1,13 @@
 # AI Inbox Assistant
 
-An intelligent email processing system that uses AI to automatically extract and categorize information from incoming messages.
+An intelligent email, whatsapp, messages, etc. processing system that uses AI to automatically extract and categorize information from incoming messages.
 
 ## Features
 
 - **Smart Field Extraction**: Automatically extracts key information from emails using AI
 - **JSON Response Format**: Returns structured data for easy integration
 - **RESTful API**: Simple HTTP endpoints for processing messages
-- **Modern Stack**: Built with Node.js, Express, and React
+- **Modern Stack**: Built with Node.js, Express, SQLite, and React
 
 ## Architecture
 
@@ -39,7 +39,9 @@ An intelligent email processing system that uses AI to automatically extract and
    OPENAI_MODEL=llama-3.1-8b-instant
    ```
 
-4. Start the server:
+4. Create a myDatabase.db file in the root of backend
+
+5. Start the server:
    ```bash
    npm start
    ```

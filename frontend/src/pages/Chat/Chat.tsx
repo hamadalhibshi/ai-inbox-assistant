@@ -19,6 +19,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { EditForm } from "../../components";
 import { useFormik } from "formik";
+import TicketInfo from "./components/TicketInfo";
 
 interface TicketRelevance extends Ticket {
   relevant?: boolean;
@@ -229,12 +230,12 @@ const Chat = () => {
               whiteSpace: "pre-wrap",
             }}
           >
-            {ticket.reply_suggestion}
+            {ticket?.reply_suggestion}
           </Typography>
 
           <Divider sx={{ mb: 3 }} />
 
-          {ticket.relevant && (
+          {ticket?.relevant && (
             <>
               <Stack
                 direction="row"
@@ -267,19 +268,7 @@ const Chat = () => {
                 </Stack>
               </Stack>
 
-              <Box
-                component="pre"
-                sx={{
-                  bgcolor: "grey.900",
-                  color: "grey.100",
-                  p: 2,
-                  borderRadius: 2,
-                  fontSize: "0.875rem",
-                  overflowX: "auto",
-                }}
-              >
-                {JSON.stringify(ticket, null, 2)}
-              </Box>
+              <TicketInfo ticket={ticket} />
             </>
           )}
         </Paper>

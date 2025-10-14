@@ -1,25 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { Screen } from "../../../components";
+import { tutorialData } from "../../../constants";
 
 const Tutorial = () => {
-  const data = [
-    {
-      id: 0,
-      title: "Get Started Instantly",
-      desc: "Open the AI Inbox Assistant from any device and start organizing your messages in seconds.",
-    },
-    {
-      id: 1,
-      title: "Paste Your Message or Email",
-      desc: "Simply copy and paste your chat, email, or conversation into the chatbox — no formatting needed.",
-    },
-    {
-      id: 2,
-      title: "Let AI Handle the Rest",
-      desc: "The AI Inbox Assistant will analyze, summarize, and structure your message automatically for you.",
-    },
-  ];
-
   return (
     <Screen>
       <Typography
@@ -45,7 +28,7 @@ const Tutorial = () => {
           py: 4,
         }}
       >
-        {data.map((item, index) => (
+        {tutorialData.map((item, index) => (
           <Box
             key={index}
             sx={{
@@ -59,22 +42,23 @@ const Tutorial = () => {
             {/* TODO: remove bg color and generate an image using AI */}
             <Box
               component="img"
-              src=""
+              src={item?.image}
               sx={{
-                bgcolor: "#846CF4",
                 height: 250,
                 width: 250,
                 borderRadius: 75,
+                objectFit: "cover",
+                objectPosition: "center",
               }}
             />
 
             <Box sx={{ width: "100%" }}>
               <Typography variant="h6" fontWeight={800}>
-                {item.title}
+                {item?.title}
               </Typography>
 
               <Typography variant="body1" color="text.secondary">
-                {item.desc}
+                {item?.desc}
               </Typography>
             </Box>
           </Box>
