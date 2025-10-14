@@ -133,6 +133,7 @@ const EditForm = ({
                 />
 
                 <TextField
+                  type="tel"
                   fullWidth
                   label="Phone"
                   placeholder="Phone Number"
@@ -165,6 +166,7 @@ const EditForm = ({
                 flexWrap={{ xs: "wrap", md: "nowrap" }}
               >
                 <TextField
+                  type="email"
                   fullWidth
                   label="Email"
                   placeholder="Email"

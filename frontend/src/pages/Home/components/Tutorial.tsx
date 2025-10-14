@@ -56,6 +56,7 @@ const Tutorial = () => {
               gap: 2,
             }}
           >
+            {/* TODO: remove bg color and generate an image using AI */}
             <Box
               component="img"
               src=""

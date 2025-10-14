@@ -18,6 +18,8 @@ export const getAiMessage = async (req, res) => {
     });
   }
 
+  // TODO: Fix issue with date, returning older dates instead of current
+
   const systemPrompt = `
   You are not a chatbot or assistant. You are a strict data extractor that only processes customer communications.
   
