@@ -47,23 +47,23 @@ export const getExtractedTickets = (res) => {
       });
     }
 
-    const tickets = rows.map((row) => ({
-      id: row.id,
-      status: row.status,
-      createdAt: row.createdAt,
-      contact: {
-        name: row.name,
-        email: row.email,
-        phone: row.phone,
-      },
-      channel: row.channel,
-      language: row.language,
-      intent: row.intent,
-      priority: row.priority,
-      message_raw: row.message_raw,
-      reply_suggestion: row.reply_suggestion,
-      updatedAt: row.updatedAt,
-    }));
+    const tickets = rows.map((row) => {
+      const contact = row.contact ? JSON.parse(row.contact) : {};
+
+      return {
+        id: row.id,
+        status: row.status,
+        createdAt: row.createdAt,
+        contact,
+        channel: row.channel,
+        language: row.language,
+        intent: row.intent,
+        priority: row.priority,
+        message_raw: row.message_raw,
+        reply_suggestion: row.reply_suggestion,
+        updatedAt: row.updatedAt,
+      };
+    });
 
     res.json(tickets);
   });
