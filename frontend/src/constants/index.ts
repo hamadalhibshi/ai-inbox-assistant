@@ -25,3 +25,8 @@ export const status = {
   open: "Open",
   closed: "Closed",
 };
+
+export const language = {
+  en: "en",
+  ar: "ar",
+};

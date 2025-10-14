@@ -26,7 +26,7 @@ import { handlePriorityColors, handleStatusColors } from "./Helpers/helpers";
 import moment from "moment";
 import toast from "react-hot-toast";
 import SearchIcon from "@mui/icons-material/Search";
-import { priorities, status } from "../../constants";
+import { language, priorities, status } from "../../constants";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -36,6 +36,7 @@ const Tickets = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [languageFilter, setLanguageFilter] = useState("all");
 
   useEffect(() => {
     getTickets()
@@ -44,7 +45,7 @@ const Tickets = () => {
         setIsDeleted(false);
       })
       .catch((err) => {
-        toast.error("Error getting Data");
+        toast.error("Error getting Tickets");
         console.log(err.message);
       });
   }, [isDeleted]);
@@ -126,6 +127,22 @@ const Tickets = () => {
               >
                 <MenuItem value="all">All</MenuItem>
                 {Object.entries(status).map(([key, value]) => (
+                  <MenuItem value={value.toString().toLowerCase()} key={key}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <InputLabel>Language</InputLabel>
+              <Select
+                label="Language"
+                value={languageFilter}
+                onChange={(e) => setLanguageFilter(e.target.value)}
+              >
+                <MenuItem value="all">All</MenuItem>
+                {Object.entries(language).map(([key, value]) => (
                   <MenuItem value={value.toString().toLowerCase()} key={key}>
                     {value}
                   </MenuItem>
