@@ -34,6 +34,7 @@ const EditForm = ({
 }: EditFormProps) => {
   const closeModal = () => {
     setIsOpen(false);
+    formik?.resetForm();
   };
 
   return (

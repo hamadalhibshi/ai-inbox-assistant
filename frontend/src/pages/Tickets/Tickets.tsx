@@ -26,7 +26,7 @@ const Tickets = () => {
   useEffect(() => {
     getTickets()
       .then((res) => {
-        setTickets(res?.tickets);
+        setTickets(res?.data);
       })
       .catch((err) => {
         toast.error("Error getting Data");
