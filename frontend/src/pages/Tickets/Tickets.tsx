@@ -77,13 +77,14 @@ const Tickets = () => {
             mb: 10,
           }}
         >
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={2}
+          <Box
             sx={{
-              p: 3,
-              justifyContent: "flex-end",
+              display: "flex",
+              flexWrap: { xs: "wrap", md: "nowrap" },
+              justifyContent: { xs: "center", md: "space-between" },
               alignItems: "center",
+              gap: 2,
+              p: 2,
             }}
           >
             <TextField
@@ -102,54 +103,65 @@ const Tickets = () => {
               sx={{ minWidth: 50 }}
             />
 
-            <FormControl size="small" sx={{ minWidth: 150 }}>
-              <InputLabel>Priority</InputLabel>
-              <Select
-                label="Priority"
-                value={priorityFilter}
-                onChange={(e) => setPriorityFilter(e.target.value)}
-              >
-                <MenuItem value="all">All</MenuItem>
-                {Object.entries(priorities).map(([key, value]) => (
-                  <MenuItem value={value.toString().toLowerCase()} key={key}>
-                    {value}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Box
+              sx={{
+                display: "flex",
+                // flexWrap: "wrap",
+                justifyContent: { xs: "center", md: "flex-end" },
+                alignItems: "center",
+                gap: 2,
+                flex: 1,
+              }}
+            >
+              <FormControl size="small" sx={{ minWidth: { xs: 80, md: 150 } }}>
+                <InputLabel>Priority</InputLabel>
+                <Select
+                  label="Priority"
+                  value={priorityFilter}
+                  onChange={(e) => setPriorityFilter(e.target.value)}
+                >
+                  <MenuItem value="all">All</MenuItem>
+                  {Object.entries(priorities).map(([key, value]) => (
+                    <MenuItem value={value.toString().toLowerCase()} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <FormControl size="small" sx={{ minWidth: 150 }}>
-              <InputLabel>Status</InputLabel>
-              <Select
-                label="Status"
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <MenuItem value="all">All</MenuItem>
-                {Object.entries(status).map(([key, value]) => (
-                  <MenuItem value={value.toString().toLowerCase()} key={key}>
-                    {value}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              <FormControl size="small" sx={{ minWidth: { xs: 80, md: 150 } }}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  label="Status"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                  <MenuItem value="all">All</MenuItem>
+                  {Object.entries(status).map(([key, value]) => (
+                    <MenuItem value={value.toString().toLowerCase()} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <FormControl size="small" sx={{ minWidth: 150 }}>
-              <InputLabel>Language</InputLabel>
-              <Select
-                label="Language"
-                value={languageFilter}
-                onChange={(e) => setLanguageFilter(e.target.value)}
-              >
-                <MenuItem value="all">All</MenuItem>
-                {Object.entries(language).map(([key, value]) => (
-                  <MenuItem value={value.toString().toLowerCase()} key={key}>
-                    {value}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Stack>
+              <FormControl size="small" sx={{ minWidth: { xs: 80, md: 150 } }}>
+                <InputLabel>Language</InputLabel>
+                <Select
+                  label="Language"
+                  value={languageFilter}
+                  onChange={(e) => setLanguageFilter(e.target.value)}
+                >
+                  <MenuItem value="all">All</MenuItem>
+                  {Object.entries(language).map(([key, value]) => (
+                    <MenuItem value={value.toString().toLowerCase()} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
 
           <Divider />
 
