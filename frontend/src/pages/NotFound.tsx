@@ -16,7 +16,7 @@ const NotFound = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "80vh",
+        minHeight: "95vh",
         textAlign: "center",
         px: 2,
       }}

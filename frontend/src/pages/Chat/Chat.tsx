@@ -115,7 +115,7 @@ const Chat = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
+    <Container maxWidth="md" sx={{ py: 6, height: "95vh" }}>
       <Box textAlign="center" mb={5}>
         <Typography variant="h3" fontWeight="bold" sx={{}}>
           AI Inbox Assistant
@@ -150,7 +150,6 @@ const Chat = () => {
             onChange={(e) => setMessageText(e.target.value)}
             placeholder="Paste your message, chat, or email content here..."
             sx={{
-              bgcolor: "white",
               borderRadius: 2,
             }}
           />

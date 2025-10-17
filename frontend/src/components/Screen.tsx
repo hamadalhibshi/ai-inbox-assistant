@@ -12,7 +12,7 @@ const Screen = ({ children }: ScreenType) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        minHeight: "80vh",
+        minHeight: "90vh",
         mx: { xs: 2, md: 20 },
         mt: 10,
       }}

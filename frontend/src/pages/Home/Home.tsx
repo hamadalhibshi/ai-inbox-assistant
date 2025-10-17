@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import "../../App.css";
 import { images } from "../../constants";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import Tutorial from "./components/Tutorial";
 
 const Home = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const navigateToChat = () => {
     navigate("/chat");
@@ -22,7 +23,7 @@ const Home = () => {
           alignItems: "center",
           px: { xs: 5 },
           textAlign: { xs: "center", md: "left" },
-          bgcolor: "#FFFEEF",
+          bgcolor: theme.palette.mode === "dark" ? "#393939" : "#FFFEEF",
         }}
       >
         <Box>
@@ -48,6 +49,7 @@ const Home = () => {
               py: 2,
               fontSize: 16,
               borderRadius: 3,
+              color: "white",
             }}
             onClick={navigateToChat}
           >
@@ -63,6 +65,7 @@ const Home = () => {
             width: "100%",
             maxWidth: 500,
             mb: { xs: 5, md: 0 },
+            borderRadius: 5,
           }}
         />
       </Box>

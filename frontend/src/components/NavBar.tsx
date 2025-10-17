@@ -12,8 +12,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
 import { images } from "../constants";
+import BedtimeIcon from "@mui/icons-material/Bedtime";
+import SunnyIcon from "@mui/icons-material/Sunny";
 
-const NavBar = () => {
+interface NavBarProps {
+  setDarkMode: (val: boolean) => void;
+  darkMode: boolean;
+}
+
+const NavBar = ({ setDarkMode, darkMode }: NavBarProps) => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -34,12 +41,13 @@ const NavBar = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ bgcolor: "white" }}>
+      <AppBar position="static" sx={{ bgcolor: "transparent" }}>
         <Toolbar
           sx={{
             mx: { xs: 2, md: 20 },
             display: "flex",
             justifyContent: "space-between",
+            borderRadius: 0,
           }}
         >
           <Box
@@ -54,11 +62,18 @@ const NavBar = () => {
               <Button
                 key={nav.id}
                 onClick={() => handleNavigation(nav.href)}
-                sx={{ color: "#846CF4", bgcolor: "white" }}
+                sx={{ color: "#846CF4", bgcolor: "transparent", mx: 1 }}
               >
                 {nav.title}
               </Button>
             ))}
+            <IconButton
+              color="inherit"
+              sx={{ display: { xs: "flex" }, color: "#846CF4" }}
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              {darkMode ? <SunnyIcon /> : <BedtimeIcon />}
+            </IconButton>
           </Box>
 
           <IconButton
@@ -76,7 +91,11 @@ const NavBar = () => {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <Box sx={{ width: 250 }} role="presentation">
+        <Box
+          sx={{
+            width: 250,
+          }}
+        >
           <List>
             {navigationData.map((nav) => (
               <ListItem key={nav.id} disablePadding>
@@ -86,6 +105,27 @@ const NavBar = () => {
               </ListItem>
             ))}
           </List>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              width: "100%",
+              height: "80vh",
+            }}
+          >
+            <IconButton
+              color="inherit"
+              sx={{
+                color: "#846CF4",
+              }}
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              {darkMode ? <SunnyIcon /> : <BedtimeIcon />}
+            </IconButton>
+          </Box>
         </Box>
       </Drawer>
     </>
