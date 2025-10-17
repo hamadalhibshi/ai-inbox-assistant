@@ -65,10 +65,11 @@ const EditForm = ({
   };
 
   const handleSave = () => {
-    if (!formik?.errors) {
+    if (formik?.isValid) {
       if (isEditing) {
         setIsEditedDeleted?.(true);
       }
+
       formik?.handleSubmit();
       setIsOpen(false);
       setIsEditing(false);

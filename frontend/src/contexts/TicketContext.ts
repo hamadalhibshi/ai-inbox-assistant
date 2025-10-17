@@ -23,7 +23,7 @@ export const ticketValidationSchema = Yup.object().shape({
       .required("Email is required"),
   }),
   channel: Yup.string().required("Channel is required"),
-  language: Yup.string().required("Language is required"),
+  // language: Yup.string().required("Language is required"),
   intent: Yup.string().required("Intent is required"),
   priority: Yup.string()
     .oneOf(["low", "medium", "high", "urgent"], "Invalid priority")
