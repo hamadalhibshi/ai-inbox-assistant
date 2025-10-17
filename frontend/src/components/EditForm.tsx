@@ -42,8 +42,6 @@ const EditForm = ({
   const closeModal = () => {
     if (isEditing) {
       setIsEditing(!isEditing);
-      formik?.resetForm();
-      return;
     }
 
     formik?.resetForm();
