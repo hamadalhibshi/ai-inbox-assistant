@@ -29,7 +29,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { language, priorities, status } from "../../constants";
 import { useToast } from "../../hooks/useToast";
 import { useFormik } from "formik";
-import TicketContext from "../../contexts/TicketContext";
+import TicketContext, {
+  ticketValidationSchema,
+} from "../../contexts/TicketContext";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -101,7 +103,7 @@ const Tickets = () => {
       );
     },
     // TODO: Add validation
-    // validationSchema: () => {},
+    validationSchema: ticketValidationSchema,
   });
 
   useEffect(() => {
