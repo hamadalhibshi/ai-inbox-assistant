@@ -41,11 +41,11 @@ const EditForm = ({
   const { formik } = useTicketContext();
 
   const closeModal = () => {
-    // if (isEditing) {
-    //   setIsEditing(!isEditing);
-    //   formik?.resetForm();
-    //   return;
-    // }
+    if (isEditing) {
+      setIsEditing(!isEditing);
+      formik?.resetForm();
+      return;
+    }
 
     formik?.resetForm();
     setIsOpen(false);
@@ -65,6 +65,12 @@ const EditForm = ({
         console.error("Delete error:", err);
       },
     });
+  };
+
+  const handleSave = () => {
+    formik?.handleSubmit();
+    setIsOpen(false);
+    setIsEditing(false);
   };
 
   return (
@@ -308,10 +314,7 @@ const EditForm = ({
                 <Button
                   variant="contained"
                   fullWidth
-                  onClick={() => {
-                    formik?.handleSubmit();
-                    setIsOpen(false);
-                  }}
+                  onClick={handleSave}
                   sx={{ py: 2, bgcolor: "#846CF4", color: "white" }}
                   disabled={formik?.isSubmitting}
                 >
@@ -339,7 +342,7 @@ const EditForm = ({
                   variant="contained"
                   color="secondary"
                   fullWidth
-                  // onClick={() => setIsEditing(!isEditing)}
+                  onClick={() => setIsEditing(true)}
                   sx={{ py: 2, color: "white" }}
                 >
                   Edit
