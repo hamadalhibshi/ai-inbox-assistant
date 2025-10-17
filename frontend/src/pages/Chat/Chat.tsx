@@ -295,7 +295,7 @@ const Chat = () => {
         <EditForm
           setIsOpen={setIsSidebarOpen}
           isOpen={isSidebarOpen}
-          isEdit={isEdit}
+          fromChat={isEdit}
           ticket={ticket}
           formik={formik}
         />

@@ -18,12 +18,13 @@ import { channels, priorities, status } from "../constants";
 import CloseIcon from "@mui/icons-material/Close";
 import { deleteTicket } from "../utils/api";
 import { useToast } from "../hooks/useToast";
+import { useState } from "react";
 
 interface EditFormProps {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
   ticket: Ticket | undefined;
-  isEdit?: boolean;
+  fromChat?: boolean;
   formik?: FormikProps<Ticket>;
   setIsDeleted?: (val: boolean) => void;
 }
@@ -32,15 +33,22 @@ const EditForm = ({
   isOpen,
   setIsOpen,
   ticket,
-  isEdit,
+  fromChat,
   formik,
   setIsDeleted,
 }: EditFormProps) => {
+  const [isEditing, setIsEditing] = useState(false);
   const { handleToast } = useToast();
 
   const closeModal = () => {
-    setIsOpen(false);
+    if (isEditing) {
+      setIsEditing(!isEditing);
+      formik?.resetForm();
+      return;
+    }
+
     formik?.resetForm();
+    setIsOpen(false);
   };
 
   const handleDeleteTicket = () => {
@@ -94,7 +102,7 @@ const EditForm = ({
             alignItems={"center"}
           >
             <Typography variant="h5">
-              {isEdit ? "Edit Ticket" : "Ticket Details"}
+              {fromChat ? "Edit Ticket" : "Ticket Details"}
             </Typography>
             <IconButton onClick={closeModal}>
               <CloseIcon sx={{ width: 30, height: 30 }} />
@@ -128,7 +136,7 @@ const EditForm = ({
                       ? formik?.errors?.contact?.name
                       : ""
                   }
-                  disabled={!isEdit}
+                  disabled={fromChat ? !fromChat : !isEditing}
                 />
 
                 <TextField
@@ -153,7 +161,7 @@ const EditForm = ({
                       ? formik?.errors?.contact?.phone
                       : ""
                   }
-                  disabled={!isEdit}
+                  disabled={fromChat ? !fromChat : !isEditing}
                 />
               </Box>
 
@@ -186,7 +194,7 @@ const EditForm = ({
                       ? formik?.errors?.contact?.email
                       : ""
                   }
-                  disabled={!isEdit}
+                  disabled={fromChat ? !fromChat : !isEditing}
                 />
 
                 <FormControl
@@ -202,7 +210,7 @@ const EditForm = ({
                     value={formik?.values?.status ?? ticket?.status ?? ""}
                     onChange={formik?.handleChange}
                     onBlur={formik?.handleBlur}
-                    disabled={!isEdit}
+                    disabled={fromChat ? !fromChat : !isEditing}
                   >
                     {Object.entries(status).map(([key, value]) => (
                       <MenuItem key={key} value={key}>
@@ -230,7 +238,7 @@ const EditForm = ({
                     value={formik?.values?.channel ?? ticket?.channel ?? ""}
                     onChange={formik?.handleChange}
                     onBlur={formik?.handleBlur}
-                    disabled={!isEdit}
+                    disabled={fromChat ? !fromChat : !isEditing}
                   >
                     {Object.entries(channels).map(([key, value]) => (
                       <MenuItem key={key} value={key}>
@@ -257,7 +265,7 @@ const EditForm = ({
                     value={formik?.values?.priority ?? ticket?.priority ?? ""}
                     onChange={formik?.handleChange}
                     onBlur={formik?.handleBlur}
-                    disabled={!isEdit}
+                    disabled={fromChat ? !fromChat : !isEditing}
                   >
                     {Object.entries(priorities).map(([key, value]) => (
                       <MenuItem key={key} value={key}>
@@ -280,7 +288,7 @@ const EditForm = ({
                   value={formik?.values?.intent ?? ticket?.intent ?? ""}
                   onChange={formik?.handleChange}
                   onBlur={formik?.handleBlur}
-                  disabled={!isEdit}
+                  disabled={fromChat ? !fromChat : !isEditing}
                   error={
                     formik?.touched?.intent && Boolean(formik?.errors?.intent)
                   }
@@ -291,7 +299,7 @@ const EditForm = ({
               </Box>
             </Box>
 
-            {isEdit ? (
+            {fromChat || isEditing ? (
               <Box
                 display={"flex"}
                 justifyContent={{ xs: "center", md: "flex-start" }}
@@ -331,7 +339,7 @@ const EditForm = ({
                   variant="contained"
                   color="secondary"
                   fullWidth
-                  // onClick={() => {}}
+                  onClick={() => setIsEditing(!isEditing)}
                   sx={{ py: 2, color: "white" }}
                 >
                   Edit
