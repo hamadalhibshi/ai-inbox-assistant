@@ -22,7 +22,9 @@ import { EditForm, Screen } from "../../components";
 import { useFormik } from "formik";
 import TicketInfo from "./components/TicketInfo";
 import ExampleModal from "./components/ExampleModal";
-import TicketContext from "../../contexts/TicketContext";
+import TicketContext, {
+  ticketValidationSchema,
+} from "../../contexts/TicketContext";
 
 interface TicketRelevance extends Ticket {
   relevant?: boolean;
@@ -88,8 +90,7 @@ const Chat = () => {
         }
       );
     },
-    // TODO: Add validation
-    // validationSchema: () => {},
+    validationSchema: ticketValidationSchema,
   });
 
   const handleChatSubmit = (e: React.FormEvent) => {
