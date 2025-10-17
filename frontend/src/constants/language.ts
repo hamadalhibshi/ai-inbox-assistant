@@ -1,7 +1,7 @@
 export const language = {
   exampleText: `
-    Name: Sarah Ahmed
-    Email: sarah.ahmed@example.com
+    Name: Hamad Alhibshi
+    Email: hamad.alhibshi@example.com
     Phone: +973 3921 6543
     Date: October 10, 2025
     Description:
