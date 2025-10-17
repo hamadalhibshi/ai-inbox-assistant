@@ -1,39 +1,68 @@
 import { DB } from "../database.js";
 
-export const getTickets = (res) => {
-  const sql = "SELECT * from tickets";
-  let data = { data: [] };
+export const getTickets = (res, filters = {}) => {
+  try {
+    // Base query
+    let sql = "SELECT * FROM tickets";
+    const conditions = [];
+    const values = [];
 
-  DB.all(sql, [], (err, rows) => {
-    try {
-      if (err) {
-        throw err;
-      }
-      rows.forEach((row) => {
-        let contact = row.contact ? JSON.parse(row.contact) : {};
-
-        data.data.push({
-          id: row.id,
-          status: row.status,
-          createdAt: row.createdAt,
-          contact,
-          channel: row.channel,
-          language: row.language,
-          intent: row.intent,
-          priority: row.priority,
-          message_raw: row.message_raw,
-          reply_suggestion: row.reply_suggestion,
-          updatedAt: row.updatedAt,
-        });
-      });
-      let content = JSON.stringify(data);
-      res.send(content);
-    } catch (err) {
-      res.status(500).json({
-        error: err.message,
-      });
+    // Add filters dynamically if provided
+    if (filters.status && filters.status !== "all") {
+      conditions.push("status = ?");
+      values.push(filters.status);
     }
-  });
+
+    if (filters.priority && filters.priority !== "all") {
+      conditions.push("priority = ?");
+      values.push(filters.priority);
+    }
+
+    if (filters.language && filters.language !== "all") {
+      conditions.push("language = ?");
+      values.push(filters.language);
+    }
+
+    if (filters.search && filters.search.trim() !== "") {
+      // Search in contact.name or contact.phone (stored as JSON)
+      conditions.push(
+        "(LOWER(contact) LIKE LOWER(?) OR LOWER(contact) LIKE LOWER(?))"
+      );
+      const likeTerm = `%${filters.search}%`;
+      values.push(likeTerm, likeTerm);
+    }
+
+    // Append WHERE clause if needed
+    if (conditions.length > 0) {
+      sql += " WHERE " + conditions.join(" AND ");
+    }
+
+    DB.all(sql, values, (err, rows) => {
+      if (err) {
+        console.error("DB Error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      const data = rows.map((row) => ({
+        id: row.id,
+        status: row.status,
+        createdAt: row.createdAt,
+        contact: row.contact ? JSON.parse(row.contact) : {},
+        channel: row.channel,
+        language: row.language,
+        intent: row.intent,
+        priority: row.priority,
+        message_raw: row.message_raw,
+        reply_suggestion: row.reply_suggestion,
+        updatedAt: row.updatedAt,
+      }));
+
+      res.json({ data });
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 export const getExtractedTickets = (res) => {

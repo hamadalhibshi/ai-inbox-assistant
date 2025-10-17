@@ -22,3 +22,10 @@ export interface Ticket {
   message_raw: string | undefined;
   reply_suggestion: string | undefined;
 }
+
+export interface Filters {
+  status: string;
+  language: string;
+  priority: string;
+  search: string;
+}

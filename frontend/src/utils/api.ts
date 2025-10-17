@@ -1,4 +1,4 @@
-import type { Ticket } from "../../types";
+import type { Filters, Ticket } from "../../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -34,12 +34,13 @@ export const saveAiTicket = async (data: Ticket) => {
   return response.json();
 };
 
-export const getTickets = async () => {
-  const response = await fetch(`${BASE_URL}/ai`, {
-    method: "GET",
+export const getTickets = async (filters: Filters) => {
+  const response = await fetch(`${BASE_URL}/ai/filter`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ filters }),
   });
 
   if (!response.ok) {

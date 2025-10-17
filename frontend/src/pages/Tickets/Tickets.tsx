@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { editTicket, getTickets } from "../../utils/api";
-import type { Ticket } from "../../../types";
+import type { Filters, Ticket } from "../../../types";
 import { EditForm, Screen } from "../../components";
 import {
   Box,
@@ -20,6 +20,7 @@ import {
   Select,
   Divider,
   InputAdornment,
+  CircularProgress,
 } from "@mui/material";
 import { handlePriorityColors, handleStatusColors } from "./Helpers/helpers";
 import moment from "moment";
@@ -32,15 +33,24 @@ import TicketContext from "../../contexts/TicketContext";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [viewModal, setViewModal] = useState(false);
+  const [viewModal, setViewModal] = useState<boolean>(false);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | undefined>();
-  const [isEditedDeleted, setIsEditedDeleted] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [languageFilter, setLanguageFilter] = useState("all");
-
+  const [isEditedDeleted, setIsEditedDeleted] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [filters, setFilters] = useState<Filters>({
+    priority: "all",
+    language: "all",
+    status: "all",
+    search: "",
+  });
   const { handleToast } = useToast();
+
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -95,8 +105,9 @@ const Tickets = () => {
   });
 
   useEffect(() => {
-    // TODO: Handle filtering based on language, search, status
-    getTickets()
+    setTickets([]);
+    setIsLoading(true);
+    getTickets(filters)
       .then((res) => {
         setTickets(res?.data);
       })
@@ -106,8 +117,9 @@ const Tickets = () => {
       })
       .finally(() => {
         setIsEditedDeleted(false);
+        setIsLoading(false);
       });
-  }, [isEditedDeleted]);
+  }, [isEditedDeleted, filters]);
 
   const handleTicketClick = (ticket: Ticket) => {
     setViewModal(!viewModal);
@@ -129,118 +141,119 @@ const Tickets = () => {
           Tickets
         </Typography>
 
-        {tickets?.length > 0 ? (
-          <Paper
+        <Paper
+          sx={{
+            borderRadius: 3,
+            boxShadow: 2,
+            mb: 10,
+          }}
+        >
+          <Box
             sx={{
-              borderRadius: 3,
-              boxShadow: 2,
-              mb: 10,
+              display: "flex",
+              flexWrap: { xs: "wrap", md: "nowrap" },
+              alignItems: "center",
+              gap: 2,
+              p: 2,
             }}
           >
+            <TextField
+              variant="outlined"
+              placeholder="Search by name or phone number..."
+              size="small"
+              value={filters.search}
+              onChange={(e) => handleFilterChange("search", e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon color="action" />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ minWidth: { xs: "100%", md: "25%" } }}
+            />
+
             <Box
               sx={{
                 display: "flex",
-                flexWrap: { xs: "wrap", md: "nowrap" },
+                justifyContent: { xs: "space-between", md: "flex-end" },
                 alignItems: "center",
                 gap: 2,
-                p: 2,
+                flex: 1,
               }}
             >
-              <TextField
-                variant="outlined"
-                placeholder="Search by name or phone number..."
+              <FormControl
                 size="small"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon color="action" />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ minWidth: { xs: "100%", md: "25%" } }}
-              />
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: { xs: "space-between", md: "flex-end" },
-                  alignItems: "center",
-                  gap: 2,
-                  flex: 1,
-                }}
+                sx={{ minWidth: { xs: "30%", md: 150 } }}
               >
-                <FormControl
-                  size="small"
-                  sx={{ minWidth: { xs: "30%", md: 150 } }}
+                <InputLabel>Priority</InputLabel>
+                <Select
+                  label="Priority"
+                  value={filters.priority}
+                  onChange={(e) =>
+                    handleFilterChange("priority", e.target.value)
+                  }
                 >
-                  <InputLabel>Priority</InputLabel>
-                  <Select
-                    label="Priority"
-                    value={priorityFilter}
-                    onChange={(e) => setPriorityFilter(e.target.value)}
-                  >
-                    <MenuItem value="all">All</MenuItem>
-                    {Object.entries(priorities).map(([key, value]) => (
-                      <MenuItem
-                        value={value.toString().toLowerCase()}
-                        key={key}
-                      >
-                        {value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                  <MenuItem value="all">All</MenuItem>
+                  {Object.entries(priorities).map(([key, value]) => (
+                    <MenuItem value={value.toString().toLowerCase()} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-                <FormControl
-                  size="small"
-                  sx={{ minWidth: { xs: "30%", md: 150 } }}
+              <FormControl
+                size="small"
+                sx={{ minWidth: { xs: "30%", md: 150 } }}
+              >
+                <InputLabel>Status</InputLabel>
+                <Select
+                  label="Status"
+                  value={filters.status}
+                  onChange={(e) => handleFilterChange("status", e.target.value)}
                 >
-                  <InputLabel>Status</InputLabel>
-                  <Select
-                    label="Status"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <MenuItem value="all">All</MenuItem>
-                    {Object.entries(status).map(([key, value]) => (
-                      <MenuItem
-                        value={value.toString().toLowerCase()}
-                        key={key}
-                      >
-                        {value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                  <MenuItem value="all">All</MenuItem>
+                  {Object.entries(status).map(([key, value]) => (
+                    <MenuItem value={value.toString().toLowerCase()} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-                <FormControl
-                  size="small"
-                  sx={{ minWidth: { xs: "30%", md: 150 } }}
+              <FormControl
+                size="small"
+                sx={{ minWidth: { xs: "30%", md: 150 } }}
+              >
+                <InputLabel>Language</InputLabel>
+                <Select
+                  label="Language"
+                  value={filters.language}
+                  onChange={(e) =>
+                    handleFilterChange("language", e.target.value)
+                  }
                 >
-                  <InputLabel>Language</InputLabel>
-                  <Select
-                    label="Language"
-                    value={languageFilter}
-                    onChange={(e) => setLanguageFilter(e.target.value)}
-                  >
-                    <MenuItem value="all">All</MenuItem>
-                    {Object.entries(language).map(([key, value]) => (
-                      <MenuItem
-                        value={value.toString().toLowerCase()}
-                        key={key}
-                      >
-                        {value}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
+                  <MenuItem value="all">All</MenuItem>
+                  {Object.entries(language).map(([key, value]) => (
+                    <MenuItem value={value.toString().toLowerCase()} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
+          </Box>
 
-            <Divider />
+          <Divider />
 
+          {isLoading && (
+            <Box sx={{ display: "flex", justifyContent: "center", p: 5 }}>
+              <CircularProgress size={24} color="inherit" />
+            </Box>
+          )}
+
+          {tickets?.length > 0 ? (
             <TableContainer>
               <Table>
                 <TableHead>
@@ -345,31 +358,38 @@ const Tickets = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+          ) : (
+            !isLoading && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  textAlign: "center",
+                  p: 5,
+                }}
+              >
+                <Typography variant="body1" color="textSecondary">
+                  No Tickets
+                </Typography>
+              </Box>
+            )
+          )}
 
-            {/* TODO Add Pagination */}
-            <TablePagination
-              component="div"
-              count={tickets?.length}
-              page={1}
-              onPageChange={() => {}}
-              rowsPerPage={10}
-              onRowsPerPageChange={() => {}}
-              rowsPerPageOptions={[10, 25]}
-              labelRowsPerPage="Rows per page"
-            />
-          </Paper>
-        ) : (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="100%"
-          >
-            <Typography variant="body1" color="textSecondary">
-              No Tickets
-            </Typography>
-          </Box>
-        )}
+          {/* TODO Add Pagination */}
+          <TablePagination
+            component="div"
+            count={tickets?.length}
+            page={1}
+            onPageChange={() => {}}
+            rowsPerPage={10}
+            onRowsPerPageChange={() => {}}
+            rowsPerPageOptions={[10, 25]}
+            labelRowsPerPage="Rows per page"
+            disabled={tickets.length === 0}
+          />
+        </Paper>
 
         <EditForm
           isOpen={viewModal}
