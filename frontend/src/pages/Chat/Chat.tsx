@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import { EditForm } from "../../components";
+import { EditForm, Screen } from "../../components";
 import { useFormik } from "formik";
 import TicketInfo from "./components/TicketInfo";
 
@@ -118,29 +118,32 @@ const Chat = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6, minHeight: "95vh" }}>
-      <Box textAlign="center" mb={5}>
-        <Typography variant="h3" fontWeight="bold" sx={{}}>
-          AI Inbox Assistant
-        </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          Extract structured information from your messages effortlessly.
-        </Typography>
-      </Box>
+    <Screen
+      sx={{
+        py: 6,
+        minHeight: "95vh",
+      }}
+    >
+      <Container maxWidth="md" sx={{ mb: 5 }}>
+        <Box textAlign="center" mb={5}>
+          <Typography variant="h3" fontWeight="bold" sx={{}}>
+            AI Inbox Assistant
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            Extract structured information from your messages effortlessly.
+          </Typography>
+        </Box>
 
-      <Paper
-        elevation={4}
-        sx={{
-          p: 3,
-          borderRadius: 3,
-          mb: 4,
-        }}
-      >
-        <Box
+        <Paper
+          elevation={4}
           sx={{
+            p: 3,
+            borderRadius: 3,
+            flexGrow: 1,
+            mb: 4,
             display: "flex",
-            alignItems: "flex-end",
-            gap: 2,
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <TextField
@@ -148,7 +151,6 @@ const Chat = () => {
             variant="outlined"
             multiline
             fullWidth
-            minRows={5}
             value={messageText}
             onChange={(e) => setMessageText(e.target.value)}
             placeholder="Paste your message, chat, or email content here..."
@@ -156,7 +158,6 @@ const Chat = () => {
               borderRadius: 2,
             }}
           />
-
           <IconButton
             color="primary"
             onClick={handleChatSubmit}
@@ -173,116 +174,116 @@ const Chat = () => {
               <ArrowCircleRightIcon fontSize="large" />
             )}
           </IconButton>
-        </Box>
-      </Paper>
-
-      {error && (
-        <Paper
-          elevation={2}
-          sx={{
-            p: 3,
-            mb: 4,
-            borderRadius: 2,
-            bgcolor: "error.light",
-            color: "white",
-          }}
-        >
-          <Typography variant="h6" fontWeight={700}>
-            Error
-          </Typography>
-          <Typography>{error}</Typography>
         </Paper>
-      )}
 
-      {ticket && (
-        <Paper elevation={5} sx={{ p: 4, borderRadius: 3 }}>
-          <Box
+        {error && (
+          <Paper
+            elevation={2}
             sx={{
-              bgcolor: "#846CF4",
-              display: "flex",
-              alignItems: "center",
-              gap: 1.5,
-              py: 1,
-              px: 2,
+              p: 3,
+              mb: 4,
               borderRadius: 2,
-              mb: 3,
-              boxShadow: 2,
+              bgcolor: "error.light",
+              color: "white",
             }}
           >
-            <LightbulbIcon sx={{ color: "white", fontSize: 24 }} />
-            <Typography
-              variant="h6"
+            <Typography variant="h6" fontWeight={700}>
+              Error
+            </Typography>
+            <Typography>{error}</Typography>
+          </Paper>
+        )}
+
+        {ticket && (
+          <Paper elevation={5} sx={{ p: 4, borderRadius: 3 }}>
+            <Box
               sx={{
-                color: "white",
-                fontWeight: 600,
+                bgcolor: "#846CF4",
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                py: 1,
+                px: 2,
+                borderRadius: 2,
+                mb: 3,
+                boxShadow: 2,
               }}
             >
-              AI Reply Suggestion
-            </Typography>
-          </Box>
-
-          <Typography
-            variant="body1"
-            sx={{
-              p: 2,
-              bgcolor: isDark ? "grey.800" : "grey.100",
-              borderRadius: 2,
-              mb: 3,
-              fontSize: "1rem",
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {ticket?.reply_suggestion}
-          </Typography>
-
-          {ticket?.relevant && (
-            <>
-              <Divider sx={{ mb: 3 }} />
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                mb={2}
+              <LightbulbIcon sx={{ color: "white", fontSize: 24 }} />
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "white",
+                  fontWeight: 600,
+                }}
               >
-                <Typography variant="h6" fontWeight={600}>
-                  Extracted Fields
-                </Typography>
+                AI Reply Suggestion
+              </Typography>
+            </Box>
 
-                <Stack direction="row" spacing={1}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    onClick={() => formik.handleSubmit()}
-                    sx={{ bgcolor: "#846CF4", color: "white" }}
-                    disabled={formik.isSubmitting}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleEditTicket}
-                    disabled={formik.isSubmitting}
-                    sx={{ color: "white" }}
-                  >
-                    Edit
-                  </Button>
+            <Typography
+              variant="body1"
+              sx={{
+                p: 2,
+                bgcolor: isDark ? "grey.800" : "grey.100",
+                borderRadius: 2,
+                mb: 3,
+                fontSize: "1rem",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {ticket?.reply_suggestion}
+            </Typography>
+
+            {ticket?.relevant && (
+              <>
+                <Divider sx={{ mb: 3 }} />
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mb={2}
+                >
+                  <Typography variant="h6" fontWeight={600}>
+                    Extracted Fields
+                  </Typography>
+
+                  <Stack direction="row" spacing={1}>
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      onClick={() => formik.handleSubmit()}
+                      sx={{ bgcolor: "#846CF4", color: "white" }}
+                      disabled={formik.isSubmitting}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleEditTicket}
+                      disabled={formik.isSubmitting}
+                      sx={{ color: "white" }}
+                    >
+                      Edit
+                    </Button>
+                  </Stack>
                 </Stack>
-              </Stack>
 
-              <TicketInfo ticket={ticket} />
-            </>
-          )}
-        </Paper>
-      )}
-      <EditForm
-        setIsOpen={setIsModalOpen}
-        isOpen={isModalOpen}
-        isEdit={isEdit}
-        ticket={ticket}
-        formik={formik}
-      />
-    </Container>
+                <TicketInfo ticket={ticket} />
+              </>
+            )}
+          </Paper>
+        )}
+        <EditForm
+          setIsOpen={setIsModalOpen}
+          isOpen={isModalOpen}
+          isEdit={isEdit}
+          ticket={ticket}
+          formik={formik}
+        />
+      </Container>
+    </Screen>
   );
 };
 
