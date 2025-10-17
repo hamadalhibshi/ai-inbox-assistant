@@ -64,7 +64,6 @@ const Home = () => {
           sx={{
             width: "100%",
             maxWidth: 500,
-            mb: { xs: 5, md: 0 },
             borderRadius: 5,
           }}
         />

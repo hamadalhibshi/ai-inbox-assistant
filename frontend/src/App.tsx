@@ -12,6 +12,9 @@ const App = () => {
     palette: {
       mode: darkMode ? "dark" : "light",
     },
+    typography: {
+      fontFamily: `"DM Sans", "Roboto", "Helvetica", "Arial", sans-serif`,
+    },
   });
 
   return (
