@@ -21,6 +21,7 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { EditForm, Screen } from "../../components";
 import { useFormik } from "formik";
 import TicketInfo from "./components/TicketInfo";
+import ExampleModal from "./components/ExampleModal";
 
 interface TicketRelevance extends Ticket {
   relevant?: boolean;
@@ -31,7 +32,8 @@ const Chat = () => {
   const [ticket, setTicket] = useState<TicketRelevance | undefined>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isExampleOpen, setIsExampleOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { handleToast } = useToast();
   const theme = useTheme();
@@ -113,8 +115,12 @@ const Chat = () => {
   };
 
   const handleEditTicket = () => {
-    setIsModalOpen(true);
+    setIsSidebarOpen(true);
     setIsEdit(true);
+  };
+
+  const openExampleModal = () => {
+    setIsExampleOpen(true);
   };
 
   return (
@@ -132,6 +138,17 @@ const Chat = () => {
           <Typography variant="subtitle1" color="text.secondary">
             Extract structured information from your messages effortlessly.
           </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              mt: 2,
+              color: "white",
+              bgcolor: "#846CF4",
+            }}
+            onClick={openExampleModal}
+          >
+            Example of message
+          </Button>
         </Box>
 
         <Paper
@@ -276,13 +293,14 @@ const Chat = () => {
           </Paper>
         )}
         <EditForm
-          setIsOpen={setIsModalOpen}
-          isOpen={isModalOpen}
+          setIsOpen={setIsSidebarOpen}
+          isOpen={isSidebarOpen}
           isEdit={isEdit}
           ticket={ticket}
           formik={formik}
         />
       </Container>
+      <ExampleModal setIsVisible={setIsExampleOpen} visible={isExampleOpen} />
     </Screen>
   );
 };
