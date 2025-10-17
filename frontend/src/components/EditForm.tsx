@@ -41,11 +41,11 @@ const EditForm = ({
   const { handleToast } = useToast();
 
   const closeModal = () => {
-    if (isEditing) {
-      setIsEditing(!isEditing);
-      formik?.resetForm();
-      return;
-    }
+    // if (isEditing) {
+    //   setIsEditing(!isEditing);
+    //   formik?.resetForm();
+    //   return;
+    // }
 
     formik?.resetForm();
     setIsOpen(false);
@@ -339,7 +339,7 @@ const EditForm = ({
                   variant="contained"
                   color="secondary"
                   fullWidth
-                  onClick={() => setIsEditing(!isEditing)}
+                  // onClick={() => setIsEditing(!isEditing)}
                   sx={{ py: 2, color: "white" }}
                 >
                   Edit
