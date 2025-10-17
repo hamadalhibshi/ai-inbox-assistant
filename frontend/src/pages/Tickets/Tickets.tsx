@@ -81,7 +81,6 @@ const Tickets = () => {
             sx={{
               display: "flex",
               flexWrap: { xs: "wrap", md: "nowrap" },
-              justifyContent: { xs: "center", md: "space-between" },
               alignItems: "center",
               gap: 2,
               p: 2,
@@ -89,7 +88,7 @@ const Tickets = () => {
           >
             <TextField
               variant="outlined"
-              placeholder="Search..."
+              placeholder="Search by name or phone number..."
               size="small"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -100,20 +99,22 @@ const Tickets = () => {
                   </InputAdornment>
                 ),
               }}
-              sx={{ minWidth: 50 }}
+              sx={{ minWidth: { xs: "100%", md: "25%" } }}
             />
 
             <Box
               sx={{
                 display: "flex",
-                // flexWrap: "wrap",
-                justifyContent: { xs: "center", md: "flex-end" },
+                justifyContent: { xs: "space-between", md: "flex-end" },
                 alignItems: "center",
                 gap: 2,
                 flex: 1,
               }}
             >
-              <FormControl size="small" sx={{ minWidth: { xs: 80, md: 150 } }}>
+              <FormControl
+                size="small"
+                sx={{ minWidth: { xs: "30%", md: 150 } }}
+              >
                 <InputLabel>Priority</InputLabel>
                 <Select
                   label="Priority"
@@ -129,7 +130,10 @@ const Tickets = () => {
                 </Select>
               </FormControl>
 
-              <FormControl size="small" sx={{ minWidth: { xs: 80, md: 150 } }}>
+              <FormControl
+                size="small"
+                sx={{ minWidth: { xs: "30%", md: 150 } }}
+              >
                 <InputLabel>Status</InputLabel>
                 <Select
                   label="Status"
@@ -145,7 +149,10 @@ const Tickets = () => {
                 </Select>
               </FormControl>
 
-              <FormControl size="small" sx={{ minWidth: { xs: 80, md: 150 } }}>
+              <FormControl
+                size="small"
+                sx={{ minWidth: { xs: "30%", md: 150 } }}
+              >
                 <InputLabel>Language</InputLabel>
                 <Select
                   label="Language"
