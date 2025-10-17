@@ -300,7 +300,10 @@ const EditForm = ({
                 <Button
                   variant="contained"
                   fullWidth
-                  onClick={() => formik?.handleSubmit()}
+                  onClick={() => {
+                    closeModal();
+                    formik?.handleSubmit();
+                  }}
                   sx={{ py: 2, bgcolor: "#846CF4", color: "white" }}
                   disabled={formik?.isSubmitting}
                 >

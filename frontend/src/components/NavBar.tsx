@@ -78,7 +78,10 @@ const NavBar = ({ setDarkMode, darkMode }: NavBarProps) => {
 
           <IconButton
             color="inherit"
-            sx={{ display: { xs: "flex", md: "none" }, color: "#846CF4" }}
+            sx={{
+              display: { xs: "flex", md: "none" },
+              color: "#846CF4",
+            }}
             onClick={() => setDrawerOpen(true)}
           >
             <MenuIcon />
@@ -120,6 +123,7 @@ const NavBar = ({ setDarkMode, darkMode }: NavBarProps) => {
               color="inherit"
               sx={{
                 color: "#846CF4",
+                mr: 1,
               }}
               onClick={() => setDarkMode(!darkMode)}
             >
