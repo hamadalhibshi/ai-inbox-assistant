@@ -13,19 +13,18 @@ import {
   IconButton,
 } from "@mui/material";
 import type { Ticket } from "../../types";
-import { type FormikProps } from "formik";
 import { channels, priorities, status } from "../constants";
 import CloseIcon from "@mui/icons-material/Close";
 import { deleteTicket } from "../utils/api";
 import { useToast } from "../hooks/useToast";
 import { useState } from "react";
+import { useTicketContext } from "../contexts/TicketContext";
 
 interface EditFormProps {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
   ticket: Ticket | undefined;
   fromChat?: boolean;
-  formik?: FormikProps<Ticket>;
   setIsDeleted?: (val: boolean) => void;
 }
 
@@ -34,11 +33,12 @@ const EditForm = ({
   setIsOpen,
   ticket,
   fromChat,
-  formik,
   setIsDeleted,
 }: EditFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { handleToast } = useToast();
+
+  const { formik } = useTicketContext();
 
   const closeModal = () => {
     // if (isEditing) {
@@ -309,8 +309,8 @@ const EditForm = ({
                   variant="contained"
                   fullWidth
                   onClick={() => {
-                    closeModal();
                     formik?.handleSubmit();
+                    setIsOpen(false);
                   }}
                   sx={{ py: 2, bgcolor: "#846CF4", color: "white" }}
                   disabled={formik?.isSubmitting}

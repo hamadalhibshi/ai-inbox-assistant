@@ -22,6 +22,7 @@ import { EditForm, Screen } from "../../components";
 import { useFormik } from "formik";
 import TicketInfo from "./components/TicketInfo";
 import ExampleModal from "./components/ExampleModal";
+import TicketContext from "../../contexts/TicketContext";
 
 interface TicketRelevance extends Ticket {
   relevant?: boolean;
@@ -42,21 +43,21 @@ const Chat = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: ticket?.id || "",
-      status: ticket?.status || "",
-      createdAt: ticket?.createdAt || "",
+      id: ticket?.id ?? "",
+      status: ticket?.status ?? "",
+      createdAt: ticket?.createdAt ?? "",
       contact: {
-        name: ticket?.contact?.name || "",
-        phone: ticket?.contact?.phone || "",
-        email: ticket?.contact?.email || "",
+        name: ticket?.contact?.name ?? "",
+        phone: ticket?.contact?.phone ?? "",
+        email: ticket?.contact?.email ?? "",
       },
-      channel: ticket?.channel || "",
-      language: ticket?.language || "",
-      intent: ticket?.intent || "",
-      priority: ticket?.priority || "",
-      entities: ticket?.entities || [],
-      message_raw: ticket?.message_raw || "",
-      reply_suggestion: ticket?.reply_suggestion || "",
+      channel: ticket?.channel ?? "",
+      language: ticket?.language ?? "",
+      intent: ticket?.intent ?? "",
+      priority: ticket?.priority ?? "",
+      entities: ticket?.entities ?? [],
+      message_raw: ticket?.message_raw ?? "",
+      reply_suggestion: ticket?.reply_suggestion ?? "",
     },
     onSubmit: (values: Ticket) => {
       handleToast(
@@ -124,184 +125,185 @@ const Chat = () => {
   };
 
   return (
-    <Screen
-      sx={{
-        py: 6,
-        minHeight: "95vh",
-      }}
-    >
-      <Container maxWidth="md" sx={{ mb: 5 }}>
-        <Box textAlign="center" mb={5}>
-          <Typography variant="h3" fontWeight="bold" sx={{}}>
-            AI Inbox Assistant
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            Extract structured information from your messages effortlessly.
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{
-              mt: 2,
-              color: "white",
-              bgcolor: "#846CF4",
-            }}
-            onClick={openExampleModal}
-          >
-            Example of message
-          </Button>
-        </Box>
+    <TicketContext.Provider value={{ formik }}>
+      <Screen
+        sx={{
+          py: 6,
+          minHeight: "95vh",
+        }}
+      >
+        <Container maxWidth="md" sx={{ mb: 5 }}>
+          <Box textAlign="center" mb={5}>
+            <Typography variant="h3" fontWeight="bold" sx={{}}>
+              AI Inbox Assistant
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              Extract structured information from your messages effortlessly.
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{
+                mt: 2,
+                color: "white",
+                bgcolor: "#846CF4",
+              }}
+              onClick={openExampleModal}
+            >
+              Example of message
+            </Button>
+          </Box>
 
-        <Paper
-          elevation={4}
-          sx={{
-            p: 3,
-            borderRadius: 3,
-            flexGrow: 1,
-            mb: 4,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <TextField
-            label="AI Inbox Chat"
-            variant="outlined"
-            multiline
-            fullWidth
-            value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
-            placeholder="Paste your message, chat, or email content here..."
-            sx={{
-              borderRadius: 2,
-            }}
-          />
-          <IconButton
-            color="primary"
-            onClick={handleChatSubmit}
-            disabled={loading || !messageText}
-            sx={{
-              color: "#846CF4",
-              width: 56,
-              height: 56,
-            }}
-          >
-            {loading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              <ArrowCircleRightIcon fontSize="large" />
-            )}
-          </IconButton>
-        </Paper>
-
-        {error && (
           <Paper
-            elevation={2}
+            elevation={4}
             sx={{
               p: 3,
+              borderRadius: 3,
+              flexGrow: 1,
               mb: 4,
-              borderRadius: 2,
-              bgcolor: "error.light",
-              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            <Typography variant="h6" fontWeight={700}>
-              Error
-            </Typography>
-            <Typography>{error}</Typography>
-          </Paper>
-        )}
-
-        {ticket && (
-          <Paper elevation={5} sx={{ p: 4, borderRadius: 3 }}>
-            <Box
+            <TextField
+              label="AI Inbox Chat"
+              variant="outlined"
+              multiline
+              fullWidth
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              placeholder="Paste your message, chat, or email content here..."
               sx={{
-                bgcolor: "#846CF4",
-                display: "flex",
-                alignItems: "center",
-                gap: 1.5,
-                py: 1,
-                px: 2,
                 borderRadius: 2,
-                mb: 3,
-                boxShadow: 2,
+              }}
+            />
+            <IconButton
+              color="primary"
+              onClick={handleChatSubmit}
+              disabled={loading || !messageText}
+              sx={{
+                color: "#846CF4",
+                width: 56,
+                height: 56,
               }}
             >
-              <LightbulbIcon sx={{ color: "white", fontSize: 24 }} />
-              <Typography
-                variant="h6"
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                <ArrowCircleRightIcon fontSize="large" />
+              )}
+            </IconButton>
+          </Paper>
+
+          {error && (
+            <Paper
+              elevation={2}
+              sx={{
+                p: 3,
+                mb: 4,
+                borderRadius: 2,
+                bgcolor: "error.light",
+                color: "white",
+              }}
+            >
+              <Typography variant="h6" fontWeight={700}>
+                Error
+              </Typography>
+              <Typography>{error}</Typography>
+            </Paper>
+          )}
+
+          {ticket && (
+            <Paper elevation={5} sx={{ p: 4, borderRadius: 3 }}>
+              <Box
                 sx={{
-                  color: "white",
-                  fontWeight: 600,
+                  bgcolor: "#846CF4",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  py: 1,
+                  px: 2,
+                  borderRadius: 2,
+                  mb: 3,
+                  boxShadow: 2,
                 }}
               >
-                AI Reply Suggestion
-              </Typography>
-            </Box>
-
-            <Typography
-              variant="body1"
-              sx={{
-                p: 2,
-                bgcolor: isDark ? "grey.800" : "grey.100",
-                borderRadius: 2,
-                mb: 3,
-                fontSize: "1rem",
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              {ticket?.reply_suggestion}
-            </Typography>
-
-            {ticket?.relevant && (
-              <>
-                <Divider sx={{ mb: 3 }} />
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  mb={2}
+                <LightbulbIcon sx={{ color: "white", fontSize: 24 }} />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "white",
+                    fontWeight: 600,
+                  }}
                 >
-                  <Typography variant="h6" fontWeight={600}>
-                    Extracted Fields
-                  </Typography>
+                  AI Reply Suggestion
+                </Typography>
+              </Box>
 
-                  <Stack direction="row" spacing={1}>
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      onClick={() => formik.handleSubmit()}
-                      sx={{ bgcolor: "#846CF4", color: "white" }}
-                      disabled={formik.isSubmitting}
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={handleEditTicket}
-                      disabled={formik.isSubmitting}
-                      sx={{ color: "white" }}
-                    >
-                      Edit
-                    </Button>
+              <Typography
+                variant="body1"
+                sx={{
+                  p: 2,
+                  bgcolor: isDark ? "grey.800" : "grey.100",
+                  borderRadius: 2,
+                  mb: 3,
+                  fontSize: "1rem",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {ticket?.reply_suggestion}
+              </Typography>
+
+              {ticket?.relevant && (
+                <>
+                  <Divider sx={{ mb: 3 }} />
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    mb={2}
+                  >
+                    <Typography variant="h6" fontWeight={600}>
+                      Extracted Fields
+                    </Typography>
+
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        variant="contained"
+                        type="submit"
+                        onClick={() => formik.handleSubmit()}
+                        sx={{ bgcolor: "#846CF4", color: "white" }}
+                        disabled={formik.isSubmitting}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={handleEditTicket}
+                        disabled={formik.isSubmitting}
+                        sx={{ color: "white" }}
+                      >
+                        Edit
+                      </Button>
+                    </Stack>
                   </Stack>
-                </Stack>
 
-                <TicketInfo ticket={ticket} />
-              </>
-            )}
-          </Paper>
-        )}
-        <EditForm
-          setIsOpen={setIsSidebarOpen}
-          isOpen={isSidebarOpen}
-          fromChat={isEdit}
-          ticket={ticket}
-          formik={formik}
-        />
-      </Container>
-      <ExampleModal setIsVisible={setIsExampleOpen} visible={isExampleOpen} />
-    </Screen>
+                  <TicketInfo ticket={ticket} />
+                </>
+              )}
+            </Paper>
+          )}
+          <EditForm
+            setIsOpen={setIsSidebarOpen}
+            isOpen={isSidebarOpen}
+            fromChat={isEdit}
+            ticket={ticket}
+          />
+        </Container>
+        <ExampleModal setIsVisible={setIsExampleOpen} visible={isExampleOpen} />
+      </Screen>
+    </TicketContext.Provider>
   );
 };
 
