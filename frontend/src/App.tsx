@@ -2,7 +2,7 @@ import { CustomToaster, NavBar } from "./components";
 import { Chat, Home, NotFound, Tickets } from "./pages";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Paper } from "@mui/material";
+import { CssBaseline, Paper } from "@mui/material";
 import { useState } from "react";
 
 const App = () => {
@@ -11,6 +11,9 @@ const App = () => {
   const darkTheme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
+      background: {
+        default: darkMode ? "#323232" : "#f9f9f9",
+      },
     },
     typography: {
       fontFamily: `"DM Sans", "Roboto", "Helvetica", "Arial", sans-serif`,
@@ -19,6 +22,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <Paper sx={{ borderRadius: 0 }}>
         <BrowserRouter>
           <CustomToaster />
