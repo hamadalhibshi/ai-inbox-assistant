@@ -63,3 +63,19 @@ export const deleteTicket = async (id: string | undefined) => {
 
   return response.json();
 };
+
+export const editTicket = async (data: Ticket) => {
+  const response = await fetch(`${BASE_URL}/ai/${data.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+
+  return response.json();
+};

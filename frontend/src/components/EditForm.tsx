@@ -25,7 +25,7 @@ interface EditFormProps {
   setIsOpen: (val: boolean) => void;
   ticket: Ticket | undefined;
   fromChat?: boolean;
-  setIsDeleted?: (val: boolean) => void;
+  setIsEditedDeleted?: (val: boolean) => void;
 }
 
 const EditForm = ({
@@ -33,11 +33,10 @@ const EditForm = ({
   setIsOpen,
   ticket,
   fromChat,
-  setIsDeleted,
+  setIsEditedDeleted,
 }: EditFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { handleToast } = useToast();
-
   const { formik } = useTicketContext();
 
   const closeModal = () => {
@@ -59,7 +58,7 @@ const EditForm = ({
       onSuccess: (res) => {
         console.log("Ticket deleted:", res);
         closeModal();
-        setIsDeleted?.(true);
+        setIsEditedDeleted?.(true);
       },
       onError: (err) => {
         console.error("Delete error:", err);
@@ -68,6 +67,9 @@ const EditForm = ({
   };
 
   const handleSave = () => {
+    if (isEditing) {
+      setIsEditedDeleted?.(true);
+    }
     formik?.handleSubmit();
     setIsOpen(false);
     setIsEditing(false);
@@ -316,7 +318,7 @@ const EditForm = ({
                   fullWidth
                   onClick={handleSave}
                   sx={{ py: 2, bgcolor: "#846CF4", color: "white" }}
-                  disabled={formik?.isSubmitting}
+                  disabled={formik?.isSubmitting || !formik?.dirty}
                 >
                   Save
                 </Button>

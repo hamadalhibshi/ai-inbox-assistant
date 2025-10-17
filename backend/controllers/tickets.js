@@ -141,3 +141,85 @@ export const DeleteTicket = (req, res) => {
     }
   });
 };
+
+export const EditTicket = (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      status,
+      createdAt,
+      contact,
+      channel,
+      language,
+      intent,
+      priority,
+      entities,
+      message_raw,
+      reply_suggestion,
+    } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "Ticket ID is required" });
+    }
+
+    const sql = `
+      UPDATE tickets
+      SET 
+        status = ?,
+        createdAt = ?,
+        contact = ?,
+        channel = ?,
+        language = ?,
+        intent = ?,
+        priority = ?,
+        message_raw = ?,
+        reply_suggestion = ?,
+        updatedAt = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `;
+
+    const values = [
+      status || "open",
+      createdAt,
+      contact
+        ? JSON.stringify({
+            name: contact.name || null,
+            email: contact.email || null,
+            phone: contact.phone || null,
+          })
+        : null,
+      channel || "unknown",
+      language || "en",
+      intent || "general inquiry",
+      priority || "medium",
+      message_raw,
+      reply_suggestion,
+      id,
+    ];
+
+    DB.run(sql, values, function (err) {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({
+          error: "Failed to update ticket",
+          details: err.message,
+        });
+      }
+
+      if (this.changes === 0) {
+        return res.status(404).json({ error: "Ticket not found" });
+      }
+
+      res.json({
+        success: true,
+        message: "Ticket updated successfully",
+        id,
+      });
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: "Internal server error",
+      details: err.message,
+    });
+  }
+};
