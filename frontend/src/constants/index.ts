@@ -2,7 +2,7 @@ import logo from "../assets/logo.png";
 import heroLogo from "../assets/heroLogo.png";
 import tutorialOne from "../assets/tutorialOne.png";
 import tutorialTwo from "../assets/tutorialTwo.png";
-import tutorialThree from "../assets/tutorialOne.png";
+import tutorialThree from "../assets/tutorialThree.png";
 
 export const images = {
   logo: logo,
