@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import type { FormikProps } from "formik";
-import type { Ticket } from "../../types";
+import type { Ticket } from "../types";
 import * as Yup from "yup";
 
 interface TicketContextType {

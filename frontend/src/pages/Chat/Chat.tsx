@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../App.css";
 import { extractFields, saveAiTicket } from "../../utils/api";
-import type { Ticket } from "../../../types";
+import type { Ticket } from "../../types";
 import { useToast } from "../../hooks/useToast";
 import {
   Box,

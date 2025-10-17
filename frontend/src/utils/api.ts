@@ -1,4 +1,4 @@
-import type { Filters, Ticket } from "../../types";
+import type { Filters, Ticket } from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

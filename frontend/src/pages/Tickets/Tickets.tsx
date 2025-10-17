@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { editTicket, getTickets } from "../../utils/api";
-import type { Filters, Ticket } from "../../../types";
+import type { Filters, Ticket } from "../../types";
 import { EditForm, Screen } from "../../components";
 import {
   Box,

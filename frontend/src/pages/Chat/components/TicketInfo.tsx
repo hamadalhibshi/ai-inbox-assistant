@@ -1,5 +1,5 @@
 import { Box, Chip, Grid, Typography, useTheme } from "@mui/material";
-import type { Ticket } from "../../../../types";
+import type { Ticket } from "../../../types";
 
 interface TicketInfoProps {
   ticket: Ticket;

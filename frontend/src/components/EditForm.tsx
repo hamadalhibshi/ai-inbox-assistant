@@ -12,7 +12,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-import type { Ticket } from "../../types";
+import type { Ticket } from "../types";
 import { channels, priorities, status } from "../constants";
 import CloseIcon from "@mui/icons-material/Close";
 import { deleteTicket } from "../utils/api";
