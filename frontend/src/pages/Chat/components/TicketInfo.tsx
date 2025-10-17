@@ -23,7 +23,7 @@ const TicketInfo = ({ ticket }: TicketInfoProps) => {
         Ticket Info
       </Typography>
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Status:</Typography>
           <Chip
             label={ticket.status?.toUpperCase() || "UNKNOWN"}
@@ -32,7 +32,7 @@ const TicketInfo = ({ ticket }: TicketInfoProps) => {
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Created At:</Typography>
           <Typography variant="body2">
             {ticket.createdAt
@@ -41,7 +41,7 @@ const TicketInfo = ({ ticket }: TicketInfoProps) => {
           </Typography>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Priority:</Typography>
           <Chip
             label={ticket.priority?.toUpperCase() || "-"}
@@ -56,7 +56,7 @@ const TicketInfo = ({ ticket }: TicketInfoProps) => {
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Channel:</Typography>
           <Typography variant="body2">{ticket.channel || "-"}</Typography>
         </Grid>
@@ -67,15 +67,15 @@ const TicketInfo = ({ ticket }: TicketInfoProps) => {
         Contact Info
       </Typography>
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Name:</Typography>
           <Typography variant="body2">{ticket.contact.name || "-"}</Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Email:</Typography>
           <Typography variant="body2">{ticket.contact.email || "-"}</Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid>
           <Typography variant="subtitle2">Phone:</Typography>
           <Typography variant="body2">{ticket.contact.phone || "-"}</Typography>
         </Grid>
