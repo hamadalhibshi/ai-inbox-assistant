@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, Typography } from "@mui/material";
+import { Box, Chip, Grid, Typography, useTheme } from "@mui/material";
 import type { Ticket } from "../../../../types";
 
 interface TicketInfoProps {
@@ -6,10 +6,13 @@ interface TicketInfoProps {
 }
 
 const TicketInfo = ({ ticket }: TicketInfoProps) => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Box
       sx={{
-        bgcolor: "grey.100",
+        bgcolor: isDark ? "grey.800" : "grey.100",
         p: 3,
         borderRadius: 2,
         maxWidth: 700,

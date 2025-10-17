@@ -73,7 +73,6 @@ const EditForm = ({
     >
       <Box
         sx={{
-          bgcolor: "white",
           p: 4,
           height: "100%",
           outline: "none",
@@ -300,10 +299,9 @@ const EditForm = ({
               >
                 <Button
                   variant="contained"
-                  color="success"
                   fullWidth
                   onClick={() => formik?.handleSubmit()}
-                  sx={{ py: 2, bgcolor: "#846CF4" }}
+                  sx={{ py: 2, bgcolor: "#846CF4", color: "white" }}
                   disabled={formik?.isSubmitting}
                 >
                   Save
@@ -314,7 +312,7 @@ const EditForm = ({
                   color="warning"
                   fullWidth
                   onClick={closeModal}
-                  sx={{ py: 2 }}
+                  sx={{ py: 2, color: "white" }}
                 >
                   Cancel
                 </Button>
@@ -331,7 +329,7 @@ const EditForm = ({
                   color="secondary"
                   fullWidth
                   // onClick={() => {}}
-                  sx={{ py: 2 }}
+                  sx={{ py: 2, color: "white" }}
                 >
                   Edit
                 </Button>
@@ -341,7 +339,7 @@ const EditForm = ({
                   color="error"
                   fullWidth
                   onClick={handleDeleteTicket}
-                  sx={{ py: 2 }}
+                  sx={{ py: 2, color: "white" }}
                 >
                   Delete
                 </Button>

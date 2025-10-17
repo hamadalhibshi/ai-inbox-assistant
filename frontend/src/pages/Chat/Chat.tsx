@@ -14,6 +14,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
@@ -33,6 +34,8 @@ const Chat = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { handleToast } = useToast();
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -115,7 +118,7 @@ const Chat = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6, height: "95vh" }}>
+    <Container maxWidth="md" sx={{ py: 6, minHeight: "95vh" }}>
       <Box textAlign="center" mb={5}>
         <Typography variant="h3" fontWeight="bold" sx={{}}>
           AI Inbox Assistant
@@ -222,7 +225,7 @@ const Chat = () => {
             variant="body1"
             sx={{
               p: 2,
-              bgcolor: "grey.100",
+              bgcolor: isDark ? "grey.800" : "grey.100",
               borderRadius: 2,
               mb: 3,
               fontSize: "1rem",
@@ -232,10 +235,9 @@ const Chat = () => {
             {ticket?.reply_suggestion}
           </Typography>
 
-          <Divider sx={{ mb: 3 }} />
-
           {ticket?.relevant && (
             <>
+              <Divider sx={{ mb: 3 }} />
               <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -251,7 +253,7 @@ const Chat = () => {
                     variant="contained"
                     type="submit"
                     onClick={() => formik.handleSubmit()}
-                    sx={{ bgcolor: "#846CF4" }}
+                    sx={{ bgcolor: "#846CF4", color: "white" }}
                     disabled={formik.isSubmitting}
                   >
                     Save
@@ -261,6 +263,7 @@ const Chat = () => {
                     color="secondary"
                     onClick={handleEditTicket}
                     disabled={formik.isSubmitting}
+                    sx={{ color: "white" }}
                   >
                     Edit
                   </Button>
