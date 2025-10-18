@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/X";
+import AnimatedIconButton from "./AnimatedIconButton";
 
 const Footer = () => {
   return (
@@ -42,30 +42,32 @@ const Footer = () => {
         useFlexGap
         sx={{ justifyContent: "left", color: "text.secondary" }}
       >
-        <IconButton
+        <AnimatedIconButton
           color="inherit"
           size="small"
           aria-label="GitHub"
           sx={{ alignSelf: "center" }}
         >
           <GitHubIcon />
-        </IconButton>
-        <IconButton
+        </AnimatedIconButton>
+
+        <AnimatedIconButton
           color="inherit"
           size="small"
           aria-label="X"
           sx={{ alignSelf: "center" }}
         >
           <TwitterIcon />
-        </IconButton>
-        <IconButton
+        </AnimatedIconButton>
+
+        <AnimatedIconButton
           color="inherit"
           size="small"
           aria-label="LinkedIn"
           sx={{ alignSelf: "center" }}
         >
           <LinkedInIcon />
-        </IconButton>
+        </AnimatedIconButton>
       </Stack>
     </Box>
   );

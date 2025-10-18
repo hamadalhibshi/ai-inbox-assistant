@@ -9,8 +9,6 @@ import {
   Paper,
   FormHelperText,
   FormControl,
-  Button,
-  IconButton,
 } from "@mui/material";
 import type { Ticket } from "../types";
 import { channels, priorities, status } from "../constants";
@@ -19,6 +17,8 @@ import { deleteTicket } from "../utils/api";
 import { useToast } from "../hooks/useToast";
 import { useState } from "react";
 import { useTicketContext } from "../contexts/TicketContext";
+import AnimatedButton from "./AnimatedButton";
+import AnimatedIconButton from "./AnimatedIconButton";
 
 interface EditFormProps {
   isOpen: boolean;
@@ -113,9 +113,9 @@ const EditForm = ({
             <Typography variant="h5">
               {fromChat ? "Edit Ticket" : "Ticket Details"}
             </Typography>
-            <IconButton onClick={closeModal}>
+            <AnimatedIconButton onClick={closeModal}>
               <CloseIcon sx={{ width: 30, height: 30 }} />
-            </IconButton>
+            </AnimatedIconButton>
           </Box>
 
           <>
@@ -314,25 +314,27 @@ const EditForm = ({
                 justifyContent={{ xs: "center", md: "flex-start" }}
                 gap={2}
               >
-                <Button
+                <AnimatedButton
                   variant="contained"
                   fullWidth
                   onClick={handleSave}
                   sx={{ py: 2, bgcolor: "#846CF4", color: "white" }}
                   disabled={formik?.isSubmitting || !formik?.dirty}
+                  divStyle={{ width: "100%" }}
                 >
                   Save
-                </Button>
+                </AnimatedButton>
 
-                <Button
+                <AnimatedButton
                   variant="contained"
                   color="warning"
                   fullWidth
                   onClick={closeModal}
                   sx={{ py: 2, color: "white" }}
+                  divStyle={{ width: "100%" }}
                 >
                   Cancel
-                </Button>
+                </AnimatedButton>
               </Box>
             ) : (
               // TODO: Complete edit flow
@@ -341,25 +343,27 @@ const EditForm = ({
                 justifyContent={{ xs: "center", md: "flex-start" }}
                 gap={2}
               >
-                <Button
+                <AnimatedButton
                   variant="contained"
                   color="secondary"
                   fullWidth
                   onClick={() => setIsEditing(true)}
                   sx={{ py: 2, color: "white" }}
+                  divStyle={{ width: "100%" }}
                 >
                   Edit
-                </Button>
+                </AnimatedButton>
 
-                <Button
+                <AnimatedButton
                   variant="contained"
                   color="error"
                   fullWidth
                   onClick={handleDeleteTicket}
                   sx={{ py: 2, color: "white" }}
+                  divStyle={{ width: "100%" }}
                 >
                   Delete
-                </Button>
+                </AnimatedButton>
               </Box>
             )}
           </>

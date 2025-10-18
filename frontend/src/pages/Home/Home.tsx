@@ -1,8 +1,9 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import "../../App.css";
 import { images } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import Tutorial from "./components/Tutorial";
+import { AnimatedButton } from "../../components";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Home = () => {
             Simplify your emails, WhatsApp messages, SMS, and so much more!
           </Typography>
 
-          <Button
+          <AnimatedButton
             variant="contained"
             sx={{
               mt: 4,
@@ -54,7 +55,7 @@ const Home = () => {
             onClick={navigateToChat}
           >
             Chat with AI
-          </Button>
+          </AnimatedButton>
         </Box>
 
         <Box

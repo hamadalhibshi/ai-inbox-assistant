@@ -102,7 +102,6 @@ const Tickets = () => {
         }
       );
     },
-    // TODO: Add validation
     validationSchema: ticketValidationSchema,
   });
 

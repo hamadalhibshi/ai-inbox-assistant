@@ -1,5 +1,6 @@
-import { Typography, Button, Container } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { AnimatedButton } from "../components";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -43,14 +44,14 @@ const NotFound = () => {
         Sorry, the page you are looking for doesn't exist or has been moved.
       </Typography>
 
-      <Button
+      <AnimatedButton
         variant="contained"
         size="large"
         onClick={handleGoBackHome}
         sx={{ bgcolor: "#846CF4" }}
       >
         Go Back Home
-      </Button>
+      </AnimatedButton>
     </Container>
   );
 };

@@ -5,11 +5,9 @@ import type { Ticket } from "../../types";
 import { useToast } from "../../hooks/useToast";
 import {
   Box,
-  Button,
   CircularProgress,
   Container,
   Divider,
-  IconButton,
   Paper,
   Stack,
   TextField,
@@ -18,13 +16,19 @@ import {
 } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import { EditForm, Screen } from "../../components";
+import {
+  AnimatedButton,
+  AnimatedIconButton,
+  EditForm,
+  Screen,
+} from "../../components";
 import { useFormik } from "formik";
 import TicketInfo from "./components/TicketInfo";
 import ExampleModal from "./components/ExampleModal";
 import TicketContext, {
   ticketValidationSchema,
 } from "../../contexts/TicketContext";
+import { motion } from "motion/react";
 
 interface TicketRelevance extends Ticket {
   relevant?: boolean;
@@ -141,7 +145,8 @@ const Chat = () => {
             <Typography variant="subtitle1" color="text.secondary">
               Extract structured information from your messages effortlessly.
             </Typography>
-            <Button
+
+            <AnimatedButton
               variant="contained"
               sx={{
                 mt: 2,
@@ -151,7 +156,7 @@ const Chat = () => {
               onClick={openExampleModal}
             >
               Example of message
-            </Button>
+            </AnimatedButton>
           </Box>
 
           <Paper
@@ -178,22 +183,30 @@ const Chat = () => {
                 borderRadius: 2,
               }}
             />
-            <IconButton
-              color="primary"
-              onClick={handleChatSubmit}
-              disabled={loading || !messageText}
-              sx={{
-                color: "#846CF4",
-                width: 56,
-                height: 56,
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                display: "inline-block",
               }}
             >
-              {loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                <ArrowCircleRightIcon fontSize="large" />
-              )}
-            </IconButton>
+              <AnimatedIconButton
+                color="primary"
+                onClick={handleChatSubmit}
+                disabled={loading || !messageText}
+                sx={{
+                  color: "#846CF4",
+                  width: 56,
+                  height: 56,
+                }}
+              >
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  <ArrowCircleRightIcon fontSize="large" />
+                )}
+              </AnimatedIconButton>
+            </motion.div>
           </Paper>
 
           {error && (
@@ -269,7 +282,7 @@ const Chat = () => {
                     </Typography>
 
                     <Stack direction="row" spacing={1}>
-                      <Button
+                      <AnimatedButton
                         variant="contained"
                         type="submit"
                         onClick={() => formik.handleSubmit()}
@@ -277,8 +290,9 @@ const Chat = () => {
                         disabled={formik.isSubmitting}
                       >
                         Save
-                      </Button>
-                      <Button
+                      </AnimatedButton>
+
+                      <AnimatedButton
                         variant="contained"
                         color="secondary"
                         onClick={handleEditTicket}
@@ -286,7 +300,7 @@ const Chat = () => {
                         sx={{ color: "white" }}
                       >
                         Edit
-                      </Button>
+                      </AnimatedButton>
                     </Stack>
                   </Stack>
 

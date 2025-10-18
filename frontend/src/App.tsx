@@ -6,7 +6,7 @@ import { CssBaseline, Paper } from "@mui/material";
 import { useState } from "react";
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   const darkTheme = createTheme({
     palette: {

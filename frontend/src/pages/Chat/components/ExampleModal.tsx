@@ -1,6 +1,7 @@
-import { Box, IconButton, Modal, Paper, Typography } from "@mui/material";
+import { Box, Modal, Paper, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { language } from "../../../constants/language";
+import { AnimatedIconButton } from "../../../components";
 
 interface ExampleModalProps {
   visible: boolean;
@@ -38,9 +39,9 @@ const ExampleModal = ({ visible, setIsVisible }: ExampleModalProps) => {
           }}
         >
           <Typography fontWeight={700}>Sample Message</Typography>
-          <IconButton onClick={handleClose}>
+          <AnimatedIconButton onClick={handleClose}>
             <CloseIcon />
-          </IconButton>
+          </AnimatedIconButton>
         </Box>
 
         <Typography variant="body2" sx={{ whiteSpace: "pre-line" }}>
